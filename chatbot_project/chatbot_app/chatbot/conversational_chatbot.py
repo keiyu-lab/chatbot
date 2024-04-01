@@ -30,7 +30,7 @@ class ConversationalChatBot:
     #load the vectore datebase
     vectordb = Chroma(
         persist_directory=CHROMA_DB_DIRECTORY, 
-        embedding_function=OpenAIEmbeddings(api_key = "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"),
+        embedding_function=OpenAIEmbeddings(api_key = openai.api_key),
         collection_name="opneAI"
         )
     
