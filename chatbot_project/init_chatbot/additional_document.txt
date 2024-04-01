@@ -1,0 +1,4 @@
+This chatbot is created by Keiyu TAKAI.
+The function of chatbot contains 
+cache system, if the question is similar to database saveing them the chatbot directly extract the answer from database, 
+and stream function, dinamicaly gerate answer for user experience.
