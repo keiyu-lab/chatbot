@@ -1,6 +1,6 @@
 ## Description
 This FAQ Chatbot knowledge is based on scraped web pages or additional documents that you provide.  
-It can accurately answer user queries and has a caching system to shorten response time and limit the number of connections to the OpenAI API. 
+It can accurately answer user queries and has a caching system to shorten response time, which contributes to limit the number of connections to the OpenAI API. 
 Additionally, it possesses dynamic response functionality to keep users engaged while waiting for a response.
 
 ## Usage
