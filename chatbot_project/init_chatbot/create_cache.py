@@ -1,3 +1,8 @@
+""" 
+    set up file
+    if database for cache already exists, don't need to run this file
+"""
+
 import os, re, django, sys
 import openai
 from datetime import datetime
@@ -7,16 +12,15 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from django.utils import timezone
+from chatbot_app.models import QACache
+
 # load django project
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chatbot_project.settings')
 django.setup()
-from chatbot_app.models import QACache
+
 CHROMA_DB_DIRECTORY="chroma_db/opneAI"
 CHROMA_DB_DIRECTORY_FOR_QUERY="chroma_db/for_query"
-openai.api_key = os.environ["OPENAI_API_KEY"]
-
-# set up file
-# if database for cache has already, don't need to run this file
+openai.api_key = os.environ["OPENAI_API_KEY"] # set your api key in your machine
 
 template_question_generator = """
     You are given the following extracted parts of document and question only about making a template question.
@@ -72,6 +76,7 @@ def generate_template_questions():
 
 def get_template_answre(question):
     """get answer to use same template"""
+    
     #load the database
     vectordb = Chroma(
         persist_directory=CHROMA_DB_DIRECTORY, 
@@ -79,6 +84,7 @@ def get_template_answre(question):
         collection_name="opneAI"
         )
     retriever = vectordb.as_retriever()  
+    
     # set a prompt
     prompt = PromptTemplate(
             input_variables=["chat_history","input"], 
@@ -91,17 +97,21 @@ def get_template_answre(question):
         model_name="gpt-3.5-turbo-16k",
         temperature=0,
         )
+    
     chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         retriever=retriever,
         condense_question_prompt=prompt,
         return_source_documents=True,
         )
+    
     res = chain({'question': question, 'chat_history': chat_history})
+    
     return res["answer"]
 
 def build_vectorestore_for_query(questions):
     "put template questions embeddings to chromadb"
+    
     embeddings = OpenAIEmbeddings()
     vectordb = Chroma.from_texts(
         texts = questions,
@@ -116,7 +126,7 @@ def build_vectorestore_for_query(questions):
 template_questions = generate_template_questions()
 
 template_questions_list = re.split("[・]", template_questions)
-#template_questions_list.remove("\n")
+
 template_pair = [] # (question, answer)
 for index,item in enumerate(template_questions_list):
     template_answer = get_template_answre(item)
@@ -133,7 +143,6 @@ vectordb_for_query = Chroma(
     )
 collection_for_query = vectordb_for_query._collection
 ids_for_query = collection_for_query.get()["ids"]
-print(ids_for_query)
 
 qa_cache = QACache()
 
