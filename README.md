@@ -1,21 +1,22 @@
-## Description
-This FAQ Chatbot knowledge is based on scraped web pages or additional documents that you provide.  
-It can accurately answer user queries and has a caching system to shorten response time, which contributes to limit the number of connections to the OpenAI API. 
-Additionally, it possesses dynamic response functionality to keep users engaged while waiting for a response.
+# FAQ Chatbot
+## 📚Description
+This FAQ chatbot is built on knowledge scraped from web pages or loaded from additional documents you provide.
+It accurately answers user queries and includes a caching system to reduce response time, helping limit the number of OpenAI API calls.
+Additionally, it features dynamic responses to keep users engaged while they wait for a reply.
 
-## Motivation
+## 🎯Motivation
+The goal of this project is to create a practical and extensible chatbot that enhances visitor support while minimizing API usage and optimizing cost efficiency.
 
-
-## Usage
-1. In create_embeddings.py, update the URLs you want to scrape and embed the information into the Chroma database. By default, the URL is set to the OpenPIM Wikipedia page.  
+## 🚀Usage
+1. Open create_embeddings.py and update the URLs you want to scrape. By default, the URL points to the OpenPIM Wikipedia page. 
 2. Run $ python create_embeddings.py.  
 3. Run $ python create_cache.py.  
-Later on above, You can finally integrate this chatbot into your web app or site to enhance visitor service and have fun to try it.  
-(You must use your own OpenAI API key)
+4. You can now integrate this chatbot into your web app or website to improve customer support and make it more interactive. 
+⚠️ You must use your own OpenAI API key.
 
-## Environment
+## 🛠Environment
 Server: Python3.8 (Django)  
-  python version needs to be 3.7~3.11 (dependancies require)
+Supported Python versions: 3.7–3.11 (due to dependency requirements)
 Frontend: Plain JavaScript
 Database: SQLite, Chroma database  
 used api: OpenAI  
